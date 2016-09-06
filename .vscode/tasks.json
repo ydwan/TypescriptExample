@@ -1,0 +1,11 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    //使用Ctrl+Shift+B弹出配置项，以下是默认配置.不需要修改。编译时也只需要Ctrl+Shift+B
+    "version": "0.1.0",
+    "command": "tsc",
+    "isShellCommand": true,
+    "args": ["-p", "."],
+    "showOutput": "silent",
+    "problemMatcher": "$tsc"
+}

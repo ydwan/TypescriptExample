@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        //指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。
+        //只有'amd'和'system'能和--outFile一起使用。当目标是ES5或以下的时候不能使用'es2015'。
+        "module": "amd",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        //将输出文件合并为一个文件。
+        //合并的顺序是根据传入编译器的文件顺序和///<reference``>和import的文件顺序决定的。查看输出文件顺序文件了解详情。
+        "outFile": "./jsx.js",
+        "sourceMap": true
+    },
+    // "include": [
+    //     "*/*.ts"
+    //     // "src/**/*"
+    // ],
+    "exclude": [
+        "node_modules"
+    ]
+}

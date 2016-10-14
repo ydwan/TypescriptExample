@@ -279,7 +279,7 @@ describe('node-fetch', function() {
 		});
 	});
 
-	it('should obey maximum redirect', function() {
+	it('should obey maximum redirect, reject case', function() {
 		url = base + '/redirect/chain';
 		opts = {
 			follow: 1
@@ -287,6 +287,17 @@ describe('node-fetch', function() {
 		return expect(fetch(url, opts)).to.eventually.be.rejected
 			.and.be.an.instanceOf(FetchError)
 			.and.have.property('type', 'max-redirect');
+	});
+
+	it('should obey redirect chain, resolve case', function() {
+		url = base + '/redirect/chain';
+		opts = {
+			follow: 2
+		}
+		return fetch(url, opts).then(function(res) {
+			expect(res.url).to.equal(base + '/inspect');
+			expect(res.status).to.equal(200);
+		});
 	});
 
 	it('should allow not following redirect', function() {
@@ -716,6 +727,21 @@ describe('node-fetch', function() {
 		});
 	});
 
+	it('should allow POST request with object body', function() {
+		url = base + '/inspect';
+		// note that fetch simply calls tostring on an object
+		opts = {
+			method: 'POST'
+			, body: { a:1 }
+		};
+		return fetch(url, opts).then(function(res) {
+			return res.json();
+		}).then(function(res) {
+			expect(res.method).to.equal('POST');
+			expect(res.body).to.equal('[object Object]');
+		});
+	});
+
 	it('should allow PUT request', function() {
 		url = base + '/inspect';
 		opts = {
@@ -1139,6 +1165,7 @@ describe('node-fetch', function() {
 		res.j = NaN;
 		res.k = true;
 		res.l = false;
+		res.m = new Buffer('test');
 
 		var h1 = new Headers(res);
 
@@ -1158,6 +1185,7 @@ describe('node-fetch', function() {
 		expect(h1._headers['j']).to.be.undefined;
 		expect(h1._headers['k']).to.be.undefined;
 		expect(h1._headers['l']).to.be.undefined;
+		expect(h1._headers['m']).to.be.undefined;
 
 		expect(h1._headers['z']).to.be.undefined;
 	});
@@ -1216,6 +1244,8 @@ describe('node-fetch', function() {
 		expect(r2.body).to.equal(form);
 		expect(r1.follow).to.equal(1);
 		expect(r2.follow).to.equal(2);
+		expect(r1.counter).to.equal(0);
+		expect(r2.counter).to.equal(0);
 	});
 
 	it('should support overwrite Request instance', function() {
@@ -1325,6 +1355,11 @@ describe('node-fetch', function() {
 		});
 	});
 
+	it('should default to 200 as status code', function() {
+		var res = new Response(null);
+		expect(res.status).to.equal(200);
+	});
+
 	it('should support parsing headers in Request constructor', function() {
 		url = base;
 		var req = new Request(url, {
@@ -1399,7 +1434,7 @@ describe('node-fetch', function() {
 		expect(cl.follow).to.equal(3);
 		expect(cl.compress).to.equal(false);
 		expect(cl.method).to.equal('POST');
-		expect(cl.counter).to.equal(3);
+		expect(cl.counter).to.equal(0);
 		expect(cl.agent).to.equal(agent);
 		// clone body shouldn't be the same body
 		expect(cl.body).to.not.equal(body);

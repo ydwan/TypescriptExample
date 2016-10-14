@@ -50,10 +50,7 @@ notSure1 = false;
 //你可能认为 Object有相似的作用，就像它在其它语言中那样。 
 //但是 Object类型的变量只是允许你给它赋任意值 -- 但是却不能够在它上面调用任意的方法，即便它真的有这些方法：
 var notSure2: any = 4;
-notSure2.ifItExists(); // okay, ifItExists might exist at runtime
 notSure2.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
-//let prettySure: Object = 4;
-//prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.
 
 //当你只知道一部分数据的类型时，any类型也是有用的。 比如，你有一个数组，它包含了不同的类型的数据：
 let list: any[] = [1, true, "free"];

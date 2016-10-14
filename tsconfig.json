@@ -9,7 +9,7 @@
         "preserveConstEnums": true,
         //将输出文件合并为一个文件。
         //合并的顺序是根据传入编译器的文件顺序和///<reference``>和import的文件顺序决定的。查看输出文件顺序文件了解详情。
-        "outFile": "./js/tsc.js",
+        "outFile": "./dist/bundle.js",
         "sourceMap": true
     },
     // "include": [

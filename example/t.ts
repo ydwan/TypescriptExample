@@ -89,23 +89,23 @@ lengthwiseIdentity({ length: 5, value: 3 });
 
 //6.在泛型里使用类类型
 //一个更高级的例子，使用原型属性推断并约束构造函数与类实例的关系。
-class Zookeeper {
+class ZooKeeper {
     nametag: string;
 }
 
 class Animal {
-    numlegs: number;
+    numLegs: number;
 }
 
 class Lion extends Animal {
-    keeper: Zookeeper
+    keeper: ZooKeeper;
 }
 
-function findKeeper<T extends Animal, K>(a: { new (): T, prototype: { keeper: K } }): K {
+function findKeeper<A extends Animal, K>(a: { new (): A; prototype: { keeper: K } }): K {
+
     return a.prototype.keeper;
 }
-
-findKeeper(Lion).nametag;
+findKeeper(Lion).nametag;  // typechecks!
 
 interface Empty<T> {
 }
